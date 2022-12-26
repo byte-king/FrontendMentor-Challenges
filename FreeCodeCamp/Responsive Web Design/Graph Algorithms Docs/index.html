@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="styles.css" rel="stylesheet"/>
+    <title>Tech Docs</title>
+  </head>
+  <body>
+    <nav id="navbar">
+      <header>Graph Algorithms Docs</header>
+      <ul>
+        <li>
+          <a class="nav-link" href="#Dijkstra_Algorithm" >Dijkstra Algorithm</a>
+        </li>
+        <li>
+          <a class="nav-link" href="#Bellman_Ford_Algorithm" >Bellman Ford Algorithm</a>
+        </li>
+        <li>
+          <a class="nav-link" href="#Floyd_Warhshall_Algorithm" >Floyd Warhshall Algorithm</a>
+        </li>
+        <li>
+          <a class="nav-link" href="#Topological_Sorting" >Topological Sorting</a>
+        </li>
+        <li>
+          <a class="nav-link" href="#DSU" >DSU</a>
+        </li>
+      </ul>
+    </nav>
+    <main id="main-doc">
+      <h2>
+        Various Graph Algorithms
+      </h2>
+      <section class="main-section" id="Dijkstra_Algorithm">
+        <header>Dijkstra Algorithm</header>
+        <p>Code:
+          <pre>
+          <code>
+            Dijkstra(graph, start, end):
+              create a set S
+              create a map d, where d[v] is the distance from start to v
+              for each vertex v in graph:
+                if v is not start:
+                  d[v] = infinity
+                else:
+                  d[v] = 0
+              create a priority queue Q, where the priority of a vertex v is d[v]
+              add start to Q
+              while Q is not empty:
+                u <- Q.pop()
+                add u to S
+                for each neighbor v of u:
+                  if v is not in S:
+                    if d[v] > d[u] + weight(u, v):
+                      d[v] = d[u] + weight(u, v)
+                      add v to Q
+              return d[end]
+          </code>
+          </pre>
+        </p>
+        <p>Time Complexity:
+          <ul>
+            <li>Best Case: 
+              <span id="bold">
+                O(|E|*log(|V|))
+                </span>
+                </li>
+            <li>Worst Case: 
+              <span id="bold">
+                O(|V|^2 + |E|)
+                </span>
+                </li>
+          </ul>
+        </p>
+
+      </section>
+      <section class="main-section" id="Bellman_Ford_Algorithm">
+        <header>Bellman Ford Algorithm</header>
+        <p>Code:
+          <pre>
+          <code>
+          BellmanFord(graph, start):
+            create a map d, where d[v] is the distance from start to v
+            for each vertex v in graph:
+              if v is not start:
+                d[v] = infinity
+              else:
+                d[v] = 0
+            for i in range(1, |V| - 1):
+              for each edge (u, v) in graph:
+                if d[v] > d[u] + weight(u, v):
+                  d[v] = d[u] + weight(u, v)
+            for each edge (u, v) in graph:
+              if d[v] > d[u] + weight(u, v):
+                return "Graph contains a negative weight cycle"
+            return d
+        </code>
+        </pre>
+        </p>
+        <p>Time Complexity:
+          <ul>
+            <li>Best Case: 
+              <span id="bold">
+                O(|V|*|E|)
+                </span>
+                </li>
+            <li>Worst Case: 
+              <span id="bold">
+                O(|V|*|E|)
+                </span>
+                </li>
+          </ul>
+        </p>
+              </section>
+      <section class="main-section" id="Floyd_Warhshall_Algorithm">
+        <header>Floyd Warhshall Algorithm</header>
+        <p>Code:
+          <pre>
+          <code>
+            FloydWarshall(graph):
+              num_vertices = len(graph)
+              D = 2D array of size num_vertices
+              for i in range(num_vertices):
+                for j in range(num_vertices):
+                  if i == j:
+                    D[i][j] = 0
+                  else if graph[i][j] is not None:
+                    D[i][j] = graph[i][j]
+              
+              for k in range(num_vertices):
+                for i in range(num_vertices):
+                  for j in range(num_vertices):
+                    if D[i][j] > D[i][k] + D[k][j]:
+                      D[i][j] = D[i][k] + D[k][j]
+              return D
+          </code>
+          </pre>
+        </p>
+        <p>Time Complexity:
+          <ul>
+            <li>Best Case: 
+              <span id="bold">
+                O(|V|^3)
+                </span>
+                </li>
+            <li>Worst Case: 
+              <span id="bold">
+                  O(|V|^3)
+                </span>
+                </li>
+          </ul>
+        </p>
+              </section>
+      <section class="main-section" id="Topological_Sorting">
+        <header>Topological Sorting</header>
+        <p>Code:
+          <pre>
+            <code>
+              def topological_sort():
+                for each node:
+                    if visited[node] is False:
+                       dfs(node)
+              def dfs(node):
+                  visited[node] = True
+                  for nei in neighbours[node]:
+                      dfs(nei)
+              	if visited(nei) = false:
+              		ret.insert_at_the _front(nei)
+            </code>
+          </pre>
+        </p>
+        <p>Time Complexity:
+          <ul>
+            <li>Best Case: 
+              <span id="bold">
+                O(|V| + |E|)
+                </span>
+                </li>
+            <li>Worst Case: 
+              <span id="bold">
+                O(|V| + |E|)
+                </span>
+                </li>
+          </ul>
+        </p>
+              </section>
+      <section class="main-section" id="DSU">
+        <header>DSU</header>
+        <p>Code:
+          <pre>
+            <code>
+                create a map parent, where parent[x] is the parent of x
+                create a map rank, where rank[x] is the rank of x
+
+                makeSet(x):
+                  parent[x] = x
+                  rank[x] = 0
+
+                findSet(x):
+                  if x is not parent[x]:
+                    parent[x] = findSet(parent[x])
+                  return parent[x]
+
+                union(x, y):
+                  xRoot = findSet(x)
+                  yRoot = findSet(y)
+                  if xRoot is not yRoot:
+                    if rank[xRoot] < rank[yRoot]:
+                      parent[xRoot] = yRoot
+                    else if rank[xRoot] > rank[yRoot]:
+                      parent[yRoot] = xRoot
+                    else:
+                      parent[yRoot] = xRoot
+                      rank[xRoot] = rank[xRoot] + 1
+            </code>
+            </pre>
+        </p>
+        <p>Time Complexity:
+          <ul>
+            <li>makeSet: 
+              <span id="bold">O(1)</span>
+            </li>
+            <li>findSet: 
+              <span id="bold">O(alpha(n)) ~ O(1)</span>
+            </li>
+          <li>union: 
+            <span id="bold">O(alpha(n)) ~ O(1)</span>
+            </li>
+          </ul>
+        </p>
+              </section>
+    </main>
+  </body>
+</html>
